@@ -3,29 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Música de Fondo</title>
+    <title>Reproductor Bonito</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffeef6; /* fondo rosado pastel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
         }
-        /* Ocultar el reproductor completamente */
+        .jugador {
+            background: #fff0f6;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
         audio {
-            display: none;
+            width: 100%;
+            border-radius: 10px;
+            background-color: #ffccd5;
+        }
+        audio::-webkit-media-controls-panel {
+            background-color: #ffccd5;
+        }
+        audio::-webkit-media-controls-play-button {
+            background-color: #ff99ac;
+            border-radius: 50%;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #d63384;
         }
     </style>
 </head>
 <body>
-    <!-- Audio oculto -->
-    <audio id="miAudio" autoplay loop muted>
-        <source src="frio.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio.
-    </audio>
+    <div class="jugador">
+        <h1>🎵 Mi Música</h1>
+        <audio id="miAudio" controls autoplay loop muted>
+            <source src="frio.mp3" type="audio/mpeg">
+            Tu navegador no soporta audio.
+        </audio>
+    </div>
 
     <script>
         const audio = document.getElementById('miAudio');
 
-        // Al hacer clic en cualquier parte de la página, activar sonido
+        // Al primer clic del usuario, quitar mute y reproducir
         document.addEventListener('click', () => {
             audio.muted = false;
             audio.play();
