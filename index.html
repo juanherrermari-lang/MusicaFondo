@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reproductor Rosa Pastel tipo Spotify Simple</title>
+<title>Reproductor Aesthetic Rosa Pastel</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
@@ -14,27 +14,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Poppins', Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
 
   .player {
-    background: transparent;
-    max-width: 360px;
-    width: 90%;
-    padding: 25px 30px;
+    background: rgba(20,20,20,0.85);
+    border-radius: 20px;
+    padding: 25px 35px;
+    width: 320px;
+    box-shadow: 0 8px 25px rgba(234, 153, 153, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    color: #f5d6db;
   }
 
   .title {
-    color: #ea9999;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 20px;
+    margin-bottom: 20px;
     text-align: center;
-    text-shadow: 0 0 6px rgba(234, 153, 153, 0.8);
+    letter-spacing: 0.03em;
     user-select: none;
+    text-shadow: 0 0 10px #ea9999cc;
   }
 
   audio {
@@ -43,25 +45,26 @@
 
   .progress-container {
     width: 100%;
-    background: rgba(255,255,255,0.15);
-    border-radius: 8px;
     height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     cursor: pointer;
     overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
   }
 
   .progress {
     height: 100%;
     width: 0%;
     background: #ea9999;
-    border-radius: 8px 0 0 8px;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 8px #ea9999cc;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 0 15px #ea9999bb;
+    transition: width 0.15s linear;
   }
 
   .controls {
     display: flex;
-    justify-content: center;
     gap: 30px;
   }
 
@@ -84,17 +87,19 @@
 
   button svg {
     fill: #ea9999;
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 3px #ea9999cc);
   }
 
   @media (max-width: 480px) {
     .player {
-      padding: 20px 20px;
-      gap: 15px;
+      width: 90%;
+      padding: 20px 25px;
     }
     .title {
-      font-size: 20px;
+      font-size: 18px;
+      margin-bottom: 15px;
     }
     button {
       width: 46px;
@@ -109,79 +114,8 @@
 </head>
 <body>
 
-<div class="player" role="region" aria-label="Reproductor de música rosa pastel estilo Spotify">
-  <div class="title">🎵Escucha mi melodía</div>
+<div class="player" role="region" aria-label="Reproductor de música rosa pastel estilo aesthetic">
+  <div class="title">Escucha mi melodía</div>
 
   <audio id="audio" preload="metadata">
-    <source src="frio.mp3" type="audio/mpeg" />
-    Tu navegador no soporta audio.
-  </audio>
-
-  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="controls">
-    <button id="playBtn" aria-label="Reproducir">
-      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-    </button>
-    <button id="pauseBtn" aria-label="Pausar">
-      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-    </button>
-    <button id="stopBtn" aria-label="Detener">
-      <svg viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2" ry="2"/></svg>
-    </button>
-  </div>
-</div>
-
-<script>
-  const audio = document.getElementById('audio');
-  const playBtn = document.getElementById('playBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  const progressContainer = document.getElementById('progressContainer');
-  const progress = document.getElementById('progress');
-
-  playBtn.addEventListener('click', () => audio.play());
-  pauseBtn.addEventListener('click', () => audio.pause());
-  stopBtn.addEventListener('click', () => {
-    audio.pause();
-    audio.currentTime = 0;
-    updateProgress(0);
-  });
-
-  audio.addEventListener('timeupdate', () => {
-    if(audio.duration) {
-      const porcentaje = (audio.currentTime / audio.duration) * 100;
-      updateProgress(porcentaje);
-    }
-  });
-
-  function updateProgress(porcentaje) {
-    progress.style.width = porcentaje + '%';
-  }
-
-  progressContainer.addEventListener('click', e => {
-    const rect = progressContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const nuevoTiempo = (clickX / width) * audio.duration;
-    audio.currentTime = nuevoTiempo;
-  });
-
-  progressContainer.addEventListener('keydown', e => {
-    if(!audio.duration) return;
-    const step = audio.duration / 20;
-    if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-      audio.currentTime = Math.min(audio.currentTime + step, audio.duration);
-      e.preventDefault();
-    }
-    else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-      audio.currentTime = Math.max(audio.currentTime - step, 0);
-      e.preventDefault();
-    }
-  });
-</script>
-
-</body>
-</html>
+    <source src="frio.mp3" type=
