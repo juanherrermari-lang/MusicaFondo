@@ -3,52 +3,51 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reproductor Rosa Pastel Simple</title>
+<title>Reproductor Rosa Pastel tipo Spotify Simple</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
   body {
     margin: 0;
     background: transparent;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     font-family: 'Poppins', Arial, sans-serif;
   }
 
   .player {
     background: transparent;
-    padding: 20px 30px;
-    max-width: 320px;
+    max-width: 360px;
     width: 90%;
+    padding: 25px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 20px;
   }
 
   .title {
     color: #ea9999;
     font-weight: 600;
     font-size: 22px;
-    margin-bottom: 20px;
-    user-select: none;
     text-align: center;
-    text-shadow: 0 0 3px rgba(234,153,153,0.7);
+    text-shadow: 0 0 6px rgba(234, 153, 153, 0.8);
+    user-select: none;
   }
 
   audio {
     display: none;
   }
 
-  .progress-bar {
+  .progress-container {
     width: 100%;
-    height: 8px;
     background: rgba(255,255,255,0.15);
     border-radius: 8px;
+    height: 8px;
     cursor: pointer;
     overflow: hidden;
-    margin-bottom: 25px;
   }
 
   .progress {
@@ -56,73 +55,82 @@
     width: 0%;
     background: #ea9999;
     border-radius: 8px 0 0 8px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px #ea9999cc;
   }
 
   .controls {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
   }
 
   button {
     background: transparent;
-    border: 2px solid #ea9999;
-    border-radius: 50%;
-    width: 52px;
-    height: 52px;
+    border: none;
     cursor: pointer;
-    color: #ea9999;
-    font-size: 22px;
-    font-weight: 700;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: transform 0.2s ease;
   }
 
   button:hover {
-    background-color: #ea9999;
-    color: white;
+    transform: scale(1.15);
   }
 
-  button:active {
-    transform: scale(0.95);
+  button svg {
+    fill: #ea9999;
+    width: 26px;
+    height: 26px;
   }
 
   @media (max-width: 480px) {
     .player {
-      padding: 15px 20px;
+      padding: 20px 20px;
+      gap: 15px;
     }
     .title {
-      font-size: 18px;
+      font-size: 20px;
     }
     button {
       width: 46px;
       height: 46px;
-      font-size: 18px;
+    }
+    button svg {
+      width: 22px;
+      height: 22px;
     }
   }
 </style>
 </head>
 <body>
 
-<div class="player" role="region" aria-label="Reproductor de música rosa pastel simple">
-  <div class="title">Reproduce la melodía de mi reino</div>
+<div class="player" role="region" aria-label="Reproductor de música rosa pastel estilo Spotify">
+  <div class="title">🎵Escucha mi melodía</div>
 
   <audio id="audio" preload="metadata">
     <source src="frio.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio.
   </audio>
 
-  <div class="progress-bar" id="progressBar" aria-label="Barra de progreso" tabindex="0">
+  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
     <div class="progress" id="progress"></div>
   </div>
 
   <div class="controls">
-    <button id="playBtn" aria-label="Reproducir">&#9658;</button>
-    <button id="pauseBtn" aria-label="Pausar">&#10074;&#10074;</button>
-    <button id="stopBtn" aria-label="Detener">&#9724;</button>
+    <button id="playBtn" aria-label="Reproducir">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button id="pauseBtn" aria-label="Pausar">
+      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button id="stopBtn" aria-label="Detener">
+      <svg viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2" ry="2"/></svg>
+    </button>
   </div>
 </div>
 
@@ -131,7 +139,7 @@
   const playBtn = document.getElementById('playBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const stopBtn = document.getElementById('stopBtn');
-  const progressBar = document.getElementById('progressBar');
+  const progressContainer = document.getElementById('progressContainer');
   const progress = document.getElementById('progress');
 
   playBtn.addEventListener('click', () => audio.play());
@@ -153,15 +161,15 @@
     progress.style.width = porcentaje + '%';
   }
 
-  progressBar.addEventListener('click', e => {
-    const rect = progressBar.getBoundingClientRect();
+  progressContainer.addEventListener('click', e => {
+    const rect = progressContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const nuevoTiempo = (clickX / width) * audio.duration;
     audio.currentTime = nuevoTiempo;
   });
 
-  progressBar.addEventListener('keydown', e => {
+  progressContainer.addEventListener('keydown', e => {
     if(!audio.duration) return;
     const step = audio.duration / 20;
     if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
