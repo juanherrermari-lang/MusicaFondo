@@ -3,84 +3,52 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reproductor Transparente Rosa Pastel</title>
+<title>Reproductor Rosa Pastel Simple</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-  /* Fondo general transparente */
   body {
     margin: 0;
-    height: 100vh;
     background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     font-family: 'Poppins', Arial, sans-serif;
   }
 
-  /* Contenedor sin fondo ni sombra para transparencia total */
   .player {
     background: transparent;
-    border-radius: 24px;
-    padding: 30px 35px;
-    max-width: 380px;
+    padding: 20px 30px;
+    max-width: 320px;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  /* Texto en rosa pastel, para verse sobre fondos oscuros o claros */
   .title {
-    font-weight: 700;
-    font-size: 24px;
     color: #ea9999;
-    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 20px;
     user-select: none;
-    text-shadow: 0 0 4px rgba(234, 153, 153, 0.7);
+    text-align: center;
+    text-shadow: 0 0 3px rgba(234,153,153,0.7);
   }
 
   audio {
     display: none;
   }
 
-  /* Visualizador de ondas */
-  .waveform {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 25px;
-  }
-
-  .wave {
-    width: 4px;
-    height: 20px;
-    background: #ea9999;
-    border-radius: 2px;
-    animation: waveAnim 1.2s infinite ease-in-out;
-    filter: drop-shadow(0 0 2px #ea9999);
-  }
-
-  .wave:nth-child(1) { animation-delay: 0s; }
-  .wave:nth-child(2) { animation-delay: 0.15s; }
-  .wave:nth-child(3) { animation-delay: 0.3s; }
-  .wave:nth-child(4) { animation-delay: 0.45s; }
-  .wave:nth-child(5) { animation-delay: 0.6s; }
-
-  @keyframes waveAnim {
-    0%, 100% { height: 12px; opacity: 0.5; }
-    50% { height: 28px; opacity: 1; }
-  }
-
-  /* Barra de progreso: fondo blanco transparente, barra progreso rosa pastel con sombra */
-  .progress-container {
+  .progress-bar {
     width: 100%;
-    background: rgba(255, 255, 255, 0.15);
     height: 8px;
+    background: rgba(255,255,255,0.15);
     border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
 
   .progress {
@@ -88,96 +56,73 @@
     width: 0%;
     background: #ea9999;
     border-radius: 8px 0 0 8px;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 12px #ea9999cc;
   }
 
-  /* Botones transparentes con borde y sombra suave rosa pastel */
   .controls {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
   }
 
   button {
     background: transparent;
-    border: 2.5px solid #ea9999;
+    border: 2px solid #ea9999;
     border-radius: 50%;
-    width: 58px;
-    height: 58px;
+    width: 52px;
+    height: 52px;
     cursor: pointer;
+    color: #ea9999;
+    font-size: 22px;
+    font-weight: 700;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px #ea9999aa;
+    user-select: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   button:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 20px #ea9999ee;
+    background-color: #ea9999;
+    color: white;
   }
 
   button:active {
-    transform: scale(1);
-    box-shadow: 0 0 12px #ea999999;
-  }
-
-  button svg {
-    width: 26px;
-    height: 26px;
-    fill: #ea9999;
+    transform: scale(0.95);
   }
 
   @media (max-width: 480px) {
     .player {
-      padding: 25px 25px;
+      padding: 15px 20px;
     }
     .title {
-      font-size: 20px;
+      font-size: 18px;
     }
     button {
-      width: 50px;
-      height: 50px;
-    }
-    button svg {
-      width: 22px;
-      height: 22px;
+      width: 46px;
+      height: 46px;
+      font-size: 18px;
     }
   }
 </style>
 </head>
 <body>
 
-<div class="player" role="region" aria-label="Reproductor de música rosa pastel transparente">
-  <div class="title">🎵La melodía de mi reino</div>
+<div class="player" role="region" aria-label="Reproductor de música rosa pastel simple">
+  <div class="title">Reproduce la melodía de mi reino</div>
+
   <audio id="audio" preload="metadata">
     <source src="frio.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio.
   </audio>
 
-  <div class="waveform" aria-hidden="true">
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-  </div>
-
-  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
+  <div class="progress-bar" id="progressBar" aria-label="Barra de progreso" tabindex="0">
     <div class="progress" id="progress"></div>
   </div>
 
   <div class="controls">
-    <button id="playBtn" aria-label="Reproducir">
-      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-    </button>
-    <button id="pauseBtn" aria-label="Pausar">
-      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-    </button>
-    <button id="stopBtn" aria-label="Detener">
-      <svg viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2" ry="2"/></svg>
-    </button>
+    <button id="playBtn" aria-label="Reproducir">&#9658;</button>
+    <button id="pauseBtn" aria-label="Pausar">&#10074;&#10074;</button>
+    <button id="stopBtn" aria-label="Detener">&#9724;</button>
   </div>
 </div>
 
@@ -186,7 +131,7 @@
   const playBtn = document.getElementById('playBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const stopBtn = document.getElementById('stopBtn');
-  const progressContainer = document.getElementById('progressContainer');
+  const progressBar = document.getElementById('progressBar');
   const progress = document.getElementById('progress');
 
   playBtn.addEventListener('click', () => audio.play());
@@ -208,15 +153,15 @@
     progress.style.width = porcentaje + '%';
   }
 
-  progressContainer.addEventListener('click', (e) => {
-    const rect = progressContainer.getBoundingClientRect();
+  progressBar.addEventListener('click', e => {
+    const rect = progressBar.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const nuevoTiempo = (clickX / width) * audio.duration;
     audio.currentTime = nuevoTiempo;
   });
 
-  progressContainer.addEventListener('keydown', e => {
+  progressBar.addEventListener('keydown', e => {
     if(!audio.duration) return;
     const step = audio.duration / 20;
     if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
