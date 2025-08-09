@@ -3,145 +3,180 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reproductor Rosa Pastel Moderno</title>
+<title>Reproductor Transparente Rosa Pastel</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+  /* Fondo general transparente */
   body {
     margin: 0;
     height: 100vh;
-    background-color: #ea9999;
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Poppins', Arial, sans-serif;
   }
 
+  /* Contenedor sin fondo ni sombra para transparencia total */
   .player {
-    background: #ffb6c1;
+    background: transparent;
     border-radius: 24px;
-    padding: 30px 40px;
-    max-width: 360px;
+    padding: 30px 35px;
+    max-width: 380px;
     width: 90%;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .player h1 {
-    color: white;
-    font-weight: 600;
-    margin: 0 0 20px 0;
-    font-size: 22px;
+  /* Texto en rosa pastel, para verse sobre fondos oscuros o claros */
+  .title {
+    font-weight: 700;
+    font-size: 24px;
+    color: #ea9999;
+    margin-bottom: 25px;
     user-select: none;
+    text-shadow: 0 0 4px rgba(234, 153, 153, 0.7);
   }
 
   audio {
-    display: none; /* ocultamos el audio nativo */
+    display: none;
   }
 
-  .progress-bar {
+  /* Visualizador de ondas */
+  .waveform {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 25px;
+  }
+
+  .wave {
+    width: 4px;
+    height: 20px;
+    background: #ea9999;
+    border-radius: 2px;
+    animation: waveAnim 1.2s infinite ease-in-out;
+    filter: drop-shadow(0 0 2px #ea9999);
+  }
+
+  .wave:nth-child(1) { animation-delay: 0s; }
+  .wave:nth-child(2) { animation-delay: 0.15s; }
+  .wave:nth-child(3) { animation-delay: 0.3s; }
+  .wave:nth-child(4) { animation-delay: 0.45s; }
+  .wave:nth-child(5) { animation-delay: 0.6s; }
+
+  @keyframes waveAnim {
+    0%, 100% { height: 12px; opacity: 0.5; }
+    50% { height: 28px; opacity: 1; }
+  }
+
+  /* Barra de progreso: fondo blanco transparente, barra progreso rosa pastel con sombra */
+  .progress-container {
     width: 100%;
-    height: 12px;
-    background: white;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    height: 8px;
+    border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
   }
 
   .progress {
-    background-color: #ea9999;
     height: 100%;
     width: 0%;
-    border-radius: 12px 0 0 12px;
-    transition: width 0.15s linear;
+    background: #ea9999;
+    border-radius: 8px 0 0 8px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px #ea9999cc;
   }
 
+  /* Botones transparentes con borde y sombra suave rosa pastel */
   .controls {
-    margin-top: 25px;
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
   }
 
   button {
-    background: white;
-    border: none;
+    background: transparent;
+    border: 2.5px solid #ea9999;
     border-radius: 50%;
-    width: 52px;
-    height: 52px;
+    width: 58px;
+    height: 58px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px #ea9999aa;
   }
 
   button:hover {
-    transform: scale(1.15);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transform: scale(1.2);
+    box-shadow: 0 0 20px #ea9999ee;
   }
 
   button:active {
-    transform: scale(0.95);
+    transform: scale(1);
+    box-shadow: 0 0 12px #ea999999;
   }
 
-  /* Íconos SVG */
   button svg {
+    width: 26px;
+    height: 26px;
     fill: #ea9999;
-    width: 22px;
-    height: 22px;
   }
 
   @media (max-width: 480px) {
     .player {
-      padding: 25px 30px;
+      padding: 25px 25px;
     }
-    .player h1 {
+    .title {
       font-size: 20px;
     }
     button {
-      width: 46px;
-      height: 46px;
+      width: 50px;
+      height: 50px;
     }
     button svg {
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
     }
   }
 </style>
 </head>
 <body>
 
-<div class="player" role="region" aria-label="Reproductor de música rosa pastel">
-  <h1>Reproduce la melodia de mi reino</h1>
+<div class="player" role="region" aria-label="Reproductor de música rosa pastel transparente">
+  <div class="title">🎵La melodía de mi reino</div>
   <audio id="audio" preload="metadata">
     <source src="frio.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio.
   </audio>
 
-  <div class="progress-bar" id="progressBar" aria-label="Barra de progreso" tabindex="0">
+  <div class="waveform" aria-hidden="true">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
     <div class="progress" id="progress"></div>
   </div>
 
   <div class="controls">
     <button id="playBtn" aria-label="Reproducir">
-      <svg viewBox="0 0 24 24" >
-        <path d="M8 5v14l11-7z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     </button>
     <button id="pauseBtn" aria-label="Pausar">
-      <svg viewBox="0 0 24 24" >
-        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
     <button id="stopBtn" aria-label="Detener">
-      <svg viewBox="0 0 24 24" >
-        <rect width="14" height="14" x="5" y="5" rx="2" ry="2"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2" ry="2"/></svg>
     </button>
   </div>
 </div>
@@ -151,7 +186,7 @@
   const playBtn = document.getElementById('playBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const stopBtn = document.getElementById('stopBtn');
-  const progressBar = document.getElementById('progressBar');
+  const progressContainer = document.getElementById('progressContainer');
   const progress = document.getElementById('progress');
 
   playBtn.addEventListener('click', () => audio.play());
@@ -163,30 +198,32 @@
   });
 
   audio.addEventListener('timeupdate', () => {
-    const porcentaje = (audio.currentTime / audio.duration) * 100 || 0;
-    updateProgress(porcentaje);
+    if(audio.duration) {
+      const porcentaje = (audio.currentTime / audio.duration) * 100;
+      updateProgress(porcentaje);
+    }
   });
 
   function updateProgress(porcentaje) {
     progress.style.width = porcentaje + '%';
   }
 
-  progressBar.addEventListener('click', (e) => {
-    const rect = progressBar.getBoundingClientRect();
+  progressContainer.addEventListener('click', (e) => {
+    const rect = progressContainer.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const nuevoTiempo = (clickX / width) * audio.duration;
     audio.currentTime = nuevoTiempo;
   });
 
-  // Soporte para teclado (barra de progreso con flechas)
-  progressBar.addEventListener('keydown', (e) => {
-    if (!audio.duration) return;
-    const step = audio.duration / 20; // 5% por paso
-    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+  progressContainer.addEventListener('keydown', e => {
+    if(!audio.duration) return;
+    const step = audio.duration / 20;
+    if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
       audio.currentTime = Math.min(audio.currentTime + step, audio.duration);
       e.preventDefault();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+    }
+    else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
       audio.currentTime = Math.max(audio.currentTime - step, 0);
       e.preventDefault();
     }
