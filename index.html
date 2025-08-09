@@ -12,35 +12,117 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ea9999; /* Fondo rosa */
+            background-color: #ea9999;
         }
         .jugador {
-            background: #ffb6c1; /* Rosa pastel */
+            background: #ffb6c1;
             padding: 20px;
             border-radius: 20px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 320px;
-            width: 100%;
+            max-width: 350px;
+            width: 90%;
         }
         h1 {
             font-size: 18px;
             margin-bottom: 12px;
             color: white;
         }
-        audio {
+        .controles {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            font-size: 18px;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .barra {
             width: 100%;
-            outline: none;
+            height: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .progreso {
+            height: 10px;
+            background: #ea9999;
+            border-radius: 5px;
+            width: 0%;
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 16px;
+            }
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="jugador">
-        <h1>¡Reproducirme!</h1>
-        <audio controls>
+        <h1>🎵 Mi Música</h1>
+        <audio id="audio">
             <source src="frio.mp3" type="audio/mpeg">
             Tu navegador no soporta audio.
         </audio>
+
+        <!-- Barra de progreso -->
+        <div class="barra" id="barra">
+            <div class="progreso" id="progreso"></div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controles">
+            <button id="play">&#9658;</button>
+            <button id="pause">&#10074;&#10074;</button>
+            <button id="stop">&#9724;</button>
+        </div>
     </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('play');
+        const pauseBtn = document.getElementById('pause');
+        const stopBtn = document.getElementById('stop');
+        const barra = document.getElementById('barra');
+        const progreso = document.getElementById('progreso');
+
+        playBtn.addEventListener('click', () => audio.play());
+        pauseBtn.addEventListener('click', () => audio.pause());
+        stopBtn.addEventListener('click', () => {
+            audio.pause();
+            audio.currentTime = 0;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const porcentaje = (audio.currentTime / audio.duration) * 100;
+            progreso.style.width = porcentaje + '%';
+        });
+
+        barra.addEventListener('click', (e) => {
+            const clickX = e.offsetX;
+            const ancho = barra.clientWidth;
+            const nuevoTiempo = (clickX / ancho) * audio.duration;
+            audio.currentTime = nuevoTiempo;
+        });
+    </script>
 </body>
 </html>
