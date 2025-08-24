@@ -1,130 +1,192 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reproductor Transparente</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: transparent; /* Fondo invisible */
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reproductor Aesthetic Rosa Pastel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+  body {
+    margin: 0;
+    background: transparent;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .player {
+    background: rgba(20,20,20,0.85);
+    border-radius: 20px;
+    padding: 25px 35px;
+    width: 320px;
+    box-shadow: 0 8px 25px rgba(234, 153, 153, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f5d6db;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    user-select: none;
+    text-shadow: 0 0 10px #ea9999cc;
+  }
+
+  audio {
+    display: none;
+  }
+
+  .progress-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
+  }
+
+  .progress {
+    height: 100%;
+    width: 0%;
+    background: #ea9999;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 0 15px #ea9999bb;
+    transition: width 0.15s linear;
+  }
+
+  .controls {
+    display: flex;
+    gap: 30px;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+  }
+
+  button:hover {
+    transform: scale(1.15);
+  }
+
+  button svg {
+    fill: #ea9999;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 3px #ea9999cc);
+  }
+
+  @media (max-width: 480px) {
     .player {
-      background: transparent; /* Sin fondo */
-      padding: 25px;
-      border-radius: 20px;
-      text-align: center;
-      max-width: 350px;
       width: 90%;
-      color: #f5f5f5;
+      padding: 20px 25px;
     }
-
-    h1 {
+    .title {
       font-size: 18px;
       margin-bottom: 15px;
-      color: #222; /* Letras oscuras para que se adapten */
-      font-weight: 500;
     }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
     button {
-      background: #222; /* Botones oscuros */
-      border: none;
-      padding: 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-      color: #f5f5f5;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-      transition: all 0.2s;
+      width: 46px;
+      height: 46px;
     }
-    button:hover {
-      background: #444;
-      transform: scale(1.1);
+    button svg {
+      width: 22px;
+      height: 22px;
     }
-    button:active {
-      transform: scale(0.95);
-    }
-
-    .bar {
-      width: 100%;
-      height: 8px;
-      background: #ddd; /* Barra gris clara */
-      border-radius: 4px;
-      margin-top: 12px;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .progress {
-      height: 100%;
-      background: #00c4ff; /* Azul modernito */
-      width: 0%;
-      border-radius: 4px;
-      transition: width 0.2s linear;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="player">
-    <h1>🎶 Para mejorar la experiencia de tu invitación reproduceme 🎶</h1>
-    <audio id="audio">
-      <source src="tu-cancion.mp3" type="audio/mpeg">
-      Tu navegador no soporta audio.
-    </audio>
 
-    <!-- Barra de progreso -->
-    <div class="bar" id="bar">
-      <div class="progress" id="progress"></div>
-    </div>
+<div class="player" role="region" aria-label="Reproductor de música rosa pastel estilo aesthetic">
+  <div class="title">🎵 Frío - Mi Canción</div>
 
-    <!-- Controles -->
-    <div class="controls">
-      <button id="play">▶</button>
-      <button id="pause">⏸</button>
-      <button id="stop">⏹</button>
-    </div>
+  <audio id="audio" preload="metadata">
+    <source src="frio.mp3" type="audio/mpeg" />
+    Tu navegador no soporta audio.
+  </audio>
+
+  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
+    <div class="progress" id="progress"></div>
   </div>
 
-  <script>
-    const audio = document.getElementById('audio');
-    const playBtn = document.getElementById('play');
-    const pauseBtn = document.getElementById('pause');
-    const stopBtn = document.getElementById('stop');
-    const bar = document.getElementById('bar');
-    const progress = document.getElementById('progress');
+  <div class="controls">
+    <button id="playBtn" aria-label="Reproducir">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button id="pauseBtn" aria-label="Pausar">
+      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button id="stopBtn" aria-label="Detener">
+      <svg viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" rx="2" ry="2"/></svg>
+    </button>
+  </div>
+</div>
 
-    playBtn.addEventListener('click', () => audio.play());
-    pauseBtn.addEventListener('click', () => audio.pause());
-    stopBtn.addEventListener('click', () => {
-      audio.pause();
-      audio.currentTime = 0;
-      progress.style.width = '0%';
-    });
+<script>
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('playBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const progressContainer = document.getElementById('progressContainer');
+  const progress = document.getElementById('progress');
 
-    audio.addEventListener('timeupdate', () => {
+  playBtn.addEventListener('click', () => audio.play());
+  pauseBtn.addEventListener('click', () => audio.pause());
+  stopBtn.addEventListener('click', () => {
+    audio.pause();
+    audio.currentTime = 0;
+    updateProgress(0);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if(audio.duration) {
       const porcentaje = (audio.currentTime / audio.duration) * 100;
-      progress.style.width = porcentaje + '%';
-    });
+      updateProgress(porcentaje);
+    }
+  });
 
-    bar.addEventListener('click', (e) => {
-      const clickX = e.offsetX;
-      const ancho = bar.clientWidth;
-      const nuevoTiempo = (clickX / ancho) * audio.duration;
-      audio.currentTime = nuevoTiempo;
-    });
-  </script>
+  function updateProgress(porcentaje) {
+    progress.style.width = porcentaje + '%';
+  }
+
+  progressContainer.addEventListener('click', e => {
+    const rect = progressContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const nuevoTiempo = (clickX / width) * audio.duration;
+    audio.currentTime = nuevoTiempo;
+  });
+
+  progressContainer.addEventListener('keydown', e => {
+    if(!audio.duration) return;
+    const step = audio.duration / 20;
+    if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      audio.currentTime = Math.min(audio.currentTime + step, audio.duration);
+      e.preventDefault();
+    }
+    else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      audio.currentTime = Math.max(audio.currentTime - step, 0);
+      e.preventDefault();
+    }
+  });
+</script>
+
 </body>
 </html>
