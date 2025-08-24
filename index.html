@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reproductor Aesthetic Rosa Pastel</title>
+<title>Reproductor Rosa Minimal</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
@@ -18,27 +18,24 @@
   }
 
   .player {
-    background: rgba(234, 153, 153, 0.2); /* fondo rosado translúcido */
+    background: rgba(255, 182, 193, 0.15); /* Rosa muy suave y transparente */
     border-radius: 20px;
     padding: 25px 35px;
-    width: 320px;
-    box-shadow: 0 8px 25px rgba(234, 153, 153, 0.6);
+    width: 300px;
+    box-shadow: 0 6px 20px rgba(234, 153, 153, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #5a3a3a;
-    backdrop-filter: blur(10px);
+    color: #ea9999;
   }
 
   .title {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 20px;
     text-align: center;
-    letter-spacing: 0.03em;
     user-select: none;
-    color: #a84c4c;
-    text-shadow: 0 0 10px #f7bfbf;
+    text-shadow: 0 0 8px #ea9999aa;
   }
 
   audio {
@@ -48,12 +45,12 @@
   .progress-container {
     width: 100%;
     height: 8px;
-    background: rgba(255, 200, 200, 0.4);
+    background: rgba(234, 153, 153, 0.2);
     border-radius: 10px;
     cursor: pointer;
     overflow: hidden;
-    margin-bottom: 30px;
-    box-shadow: inset 0 0 6px rgba(255, 180, 180, 0.4);
+    margin-bottom: 25px;
+    box-shadow: inset 0 0 6px rgba(234,153,153,0.3);
   }
 
   .progress {
@@ -61,76 +58,56 @@
     width: 0%;
     background: #ea9999;
     border-radius: 10px 0 0 10px;
-    box-shadow: 0 0 15px #ea9999bb;
+    box-shadow: 0 0 12px #ea9999aa;
     transition: width 0.15s linear;
   }
 
   .controls {
     display: flex;
-    gap: 30px;
+    justify-content: center;
   }
 
   button {
-    background: #fce4ec;
+    background: transparent;
     border: 2px solid #ea9999;
     cursor: pointer;
-    width: 54px;
-    height: 54px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.25s ease;
+    transition: transform 0.25s ease, background 0.3s ease;
   }
 
   button:hover {
-    transform: scale(1.15);
+    transform: scale(1.2);
     background: #ea9999;
-  }
-
-  button svg {
-    fill: #ea9999;
-    width: 28px;
-    height: 28px;
-    filter: drop-shadow(0 0 3px #ea9999cc);
-    transition: fill 0.25s ease;
   }
 
   button:hover svg {
     fill: #fff;
   }
 
-  @media (max-width: 480px) {
-    .player {
-      width: 90%;
-      padding: 20px 25px;
-    }
-    .title {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    button {
-      width: 46px;
-      height: 46px;
-    }
-    button svg {
-      width: 22px;
-      height: 22px;
-    }
+  button svg {
+    fill: #ea9999;
+    width: 26px;
+    height: 26px;
+    transition: fill 0.3s ease;
   }
 </style>
 </head>
 <body>
 
-<div class="player" role="region" aria-label="Reproductor de música rosa pastel estilo aesthetic">
-  <div class="title">🎶 Reproduceme para mejorar tu experiencia en mi reino 🎶</div>
+<div class="player">
+  <div class="title">🌸 Canción Especial 🌸</div>
 
   <audio id="audio" preload="metadata">
     <source src="frio.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio.
   </audio>
 
-  <div class="progress-container" id="progressContainer" aria-label="Barra de progreso" tabindex="0">
+  <div class="progress-container" id="progressContainer">
     <div class="progress" id="progress"></div>
   </div>
 
@@ -138,36 +115,23 @@
     <button id="playBtn" aria-label="Reproducir">
       <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     </button>
-    
   </div>
 </div>
 
 <script>
   const audio = document.getElementById('audio');
   const playBtn = document.getElementById('playBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const stopBtn = document.getElementById('stopBtn');
   const progressContainer = document.getElementById('progressContainer');
   const progress = document.getElementById('progress');
 
   playBtn.addEventListener('click', () => audio.play());
-  pauseBtn.addEventListener('click', () => audio.pause());
-  stopBtn.addEventListener('click', () => {
-    audio.pause();
-    audio.currentTime = 0;
-    updateProgress(0);
-  });
 
   audio.addEventListener('timeupdate', () => {
     if(audio.duration) {
       const porcentaje = (audio.currentTime / audio.duration) * 100;
-      updateProgress(porcentaje);
+      progress.style.width = porcentaje + '%';
     }
   });
-
-  function updateProgress(porcentaje) {
-    progress.style.width = porcentaje + '%';
-  }
 
   progressContainer.addEventListener('click', e => {
     const rect = progressContainer.getBoundingClientRect();
@@ -175,19 +139,6 @@
     const width = rect.width;
     const nuevoTiempo = (clickX / width) * audio.duration;
     audio.currentTime = nuevoTiempo;
-  });
-
-  progressContainer.addEventListener('keydown', e => {
-    if(!audio.duration) return;
-    const step = audio.duration / 20;
-    if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-      audio.currentTime = Math.min(audio.currentTime + step, audio.duration);
-      e.preventDefault();
-    }
-    else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-      audio.currentTime = Math.max(audio.currentTime - step, 0);
-      e.preventDefault();
-    }
   });
 </script>
 
